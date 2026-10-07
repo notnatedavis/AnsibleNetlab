@@ -1,1 +1,29 @@
 #   topology/topology.clab.yml
+#   single source of truth for the ccna-lab topology
+#   r1 <-> r2 : point-to-point OSPF backbone
+#   r1 <-> host1, r2 <-> host2 : access LANs
+
+name: ccna-lab
+
+topology:
+  nodes:
+    r1:
+      kind: linux
+      image: quay.io/frrouting/frr:10.0.1
+      privileged: true
+    r2:
+      kind: linux
+      image: quay.io/frrouting/frr:10.0.1
+      privileged: true
+
+    host1:
+      kind: linux
+      image: alpine:3.20
+    host2:
+      kind: linux
+      image: alpine:3.20
+
+  links:
+    - endpoints: ["r1:eth1", "r2:eth1"]
+    - endpoints: ["r1:eth2", "host1:eth1"]
+    - endpoints: ["r2:eth2", "host2:eth1"]

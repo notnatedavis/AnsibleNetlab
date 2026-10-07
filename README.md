@@ -12,15 +12,15 @@ A Containerlab-based CCNA network lab built as code. Defines the network topolog
 
 The core of the project is `topology.clab.yml`. This file describes the entire lab: routers, hosts, container images, and links. For example, a minimal CCNA-style lab might define two FRR routers and two Alpine hosts :
 
-- `r1` and `r2` use the FRRouting container image and act as routers.
-- `host1` and `host2` use Alpine and act as end hosts.
-- Links create virtual Ethernet pairs between containers, such as `r1:eth1` to `r2:eth1`.
+- `r1` and `r2` use the FRRouting container image and act as routers
+- `host1` and `host2` use Alpine and act as end hosts
+- Links create virtual Ethernet pairs between containers, such as `r1:eth1` to `r2:eth1`
 
 Running `containerlab deploy -t topology.clab.yml` causes Containerlab to :
 
-- Start each node as a Docker container.
-- Create the veth links between containers.
-- Attach containers to the correct virtual networks.
+- Start each node as a Docker container
+- Create the veth links between containers
+- Attach containers to the correct virtual networks
 
 The result is a running network lab made of lightweight containers. FRR containers provide routing protocols such as OSPF. Alpine containers provide simple Linux hosts for ping and reachability tests. For VLAN labs, the topology can be extended with a Linux bridge acting as a switch, or by using VLAN sub-interfaces such as `eth1.10` and `eth1.20` on FRR routers to simulate router-on-a-stick.
 
@@ -30,13 +30,13 @@ After deployment and configuration, pytest verifies that the network actually wo
 
 ## Features
 
-- Declarative topology via `topology/topology.clab.yml` (single source of truth).
-- FRR routers with OSPF area 0 and point-to-point adjacency.
-- Alpine end hosts for ping-based reachability tests.
-- Ansible + Jinja2 configuration automation.
-- pytest test suite covering OSPF, reachability, and VLAN isolation.
-- One-command deploy / configure / test / destroy workflow.
-- GitHub Actions CI that runs the full pipeline on every push.
+- Declarative topology via `topology/topology.clab.yml`
+- FRR routers with OSPF area 0 and point-to-point adjacency
+- Alpine end hosts for ping-based reachability tests
+- Ansible + Jinja2 configuration automation
+- pytest test suite covering OSPF, reachability, and VLAN isolation
+- One-command deploy / configure / test / destroy workflow
+- GitHub Actions CI that runs the full pipeline on every push
 
 ## Project-Structure
 
