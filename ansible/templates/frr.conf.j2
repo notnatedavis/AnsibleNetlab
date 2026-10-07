@@ -1,0 +1,22 @@
+hostname {{ inventory_hostname }}
+!
+{% for interface, config in interfaces.items() %}
+interface {{ interface }}
+ ip address {{ config.ip }}
+{% if config.ospf_area is defined %}
+ ip ospf area {{ config.ospf_area }}
+{% endif %}
+{% endfor %}
+!
+router ospf
+ ospf router-id {{ ospf_router_id }}
+{% for network in ospf_networks %}
+ network {{ network }} area 0
+{% endfor %}
+!
+{% for route in static_routes | default([]) %}
+ip route {{ route.prefix }} {{ route.next_hop }}
+{% endfor %}
+!
+line vty
+!

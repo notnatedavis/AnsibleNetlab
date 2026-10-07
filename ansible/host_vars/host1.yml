@@ -1,0 +1,5 @@
+#   ansible/host_vars/host1.yml
+#   host1 — Alpine end host attached to r1
+
+host_ip: 10.0.1.10/24
+host_gateway: 10.0.1.1

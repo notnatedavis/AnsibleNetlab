@@ -1,0 +1,6 @@
+#   requirements.txt
+
+ansible>=9.0
+jinja2>=3.1
+pytest>=8.0
+pytest-clab>=0.3

@@ -1,0 +1,39 @@
+#   .github/workflows/ci.yml
+
+name: lab-ci
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  lab:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Install containerlab
+        run: |
+          bash -c "$(curl -sL https://get.containerlab.dev)"
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Deploy topology
+        run: ./scripts/deploy.sh
+
+      - name: Configure devices
+        run: ./scripts/configure.sh
+
+      - name: Run tests
+        run: ./scripts/test.sh
+
+      - name: Destroy topology
+        if: always()
+        run: ./scripts/destroy.sh

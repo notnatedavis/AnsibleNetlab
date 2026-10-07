@@ -1,0 +1,35 @@
+#   ansible/configure.yml
+
+---
+- name: Configure FRR routers
+  hosts: routers
+  gather_facts: false
+  tasks:
+    - name: Wait for FRR container to accept connections
+      ansible.builtin.wait_for_connection:
+        timeout: 60
+
+    - name: Render and push frr.conf
+      ansible.builtin.template:
+        src: templates/frr.conf.j2
+        dest: /etc/frr/frr.conf
+        mode: "0640"
+
+    - name: Restart FRR to apply configuration
+      ansible.builtin.command: vtysh -c 'write memory'
+      changed_when: false
+
+- name: Configure Alpine hosts
+  hosts: hosts
+  become: true
+  gather_facts: false
+  tasks:
+    - name: Render and push interfaces file
+      ansible.builtin.template:
+        src: templates/host-interfaces.j2
+        dest: /etc/network/interfaces
+        mode: "0644"
+
+    - name: Bring up eth1
+      ansible.builtin.command: ifup eth1
+      changed_when: false

@@ -1,0 +1,8 @@
+#   ansible/group_vars/all.yml
+#   global lab variables shared by all devices
+
+ospf_area: 0
+vlan_id_10: 10
+vlan_id_20: 20
+default_gateway_r1: 10.0.1.1
+default_gateway_r2: 10.0.2.1
